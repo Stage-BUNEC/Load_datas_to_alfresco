@@ -1,5 +1,5 @@
 <?php
-$url_alfresco = 'http://127.0.0.1'; // URL du serveur Alfresco
-$port_alfresco = '2020'; // Port
-$user_alfresco = 'admin'; // User Alfresco 
-$pass_alfresco = 'toto'; // Mot de Passe de l'utilisateur
+$url_alfresco = 'http://172.16.1.99'; // URL du serveur Alfresco
+$port_alfresco = '8080'; // Port
+$user_alfresco = 'admin'; // User Alfresco
+$pass_alfresco = 'bunec'; // Mot de Passe de l'utilisateur
