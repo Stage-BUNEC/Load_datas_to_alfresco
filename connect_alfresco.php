@@ -49,7 +49,7 @@ function getShareNode(String $url_alfresco, String $port_alfresco, String $ticke
             if ($key2 == 'entries') {
                 foreach ($value2 as $key3 => $value3) {
                     foreach ($value3 as $key4 => $value4) {
-                        if ($value4['name'] == 'Partagé') {
+                        if ($value4['name'] == 'Partagé' || $value4['name'] == 'Shared') {
                             $node_partage = $value4['id'];
                         } else {
 
