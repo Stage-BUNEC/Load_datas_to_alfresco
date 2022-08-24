@@ -95,3 +95,50 @@ function extract_Register_And_Filename(int $argc, String $metaDataFile): array
 
     return array('registre' => $registre, 'nom_fichier' => $file_name);
 }
+
+function createRegister(String $url_alfresco, String $port_alfresco, String $ticket, String $node_partage, String $registre)
+{
+
+    $url_verif = $url_alfresco . ':' . $port_alfresco . '/alfresco/api/-default-/public/alfresco/versions/1/nodes/' . $node_partage . '/children?alf_ticket=' . $ticket; //verification du registre dans le dossier 'Partagé'
+    $crl = curl_init();
+
+    curl_setopt($crl, CURLOPT_URL, $url_verif);
+    curl_setopt($crl, CURLOPT_FRESH_CONNECT, true);
+    curl_setopt($crl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($crl);
+    $res = json_decode($response, true);
+
+    foreach ($res as $key => $value) {
+        //print_r($key);
+        //die();
+        foreach ($value as $key2 => $value2) {
+
+            if ($key2 == 'entries') {
+                $url = $url_alfresco . ':' . $port_alfresco . '/alfresco/api/-default-/public/alfresco/versions/1/nodes/-shared-/children?alf_ticket=' . $ticket;
+                $curl = curl_init($url);
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_POST, true);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+                $headers = array(
+                    "Content-Type: application/json",
+                );
+                curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+                $name = $registre;
+                $nodeType = "cm:folder";
+
+                $data = '{"name":"' . $name . '","nodeType":"' . $nodeType . '"}';
+
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+                //for debug only!
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+                $resp = curl_exec($curl);
+            }
+        }
+    }
+}
