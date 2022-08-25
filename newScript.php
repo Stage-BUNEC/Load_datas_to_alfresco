@@ -1,6 +1,6 @@
 <?php
 
-include_once 'connect_alfresco.php';
+include_once 'connexion_fonctions.php';
 
 // Connexion a Alfresco
 $ticket = loginToAlfrsco($url_alfresco, $port_alfresco, $user_alfresco, $pass_alfresco);

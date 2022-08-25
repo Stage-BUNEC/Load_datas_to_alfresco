@@ -6,7 +6,6 @@ $pass_alfresco = 'bunec'; // Mot de Passe de l'utilisateur
 
 function loginToAlfrsco(String $url_alfresco, String $port_alfresco, String $user_alfresco, String $pass_alfresco): string
 {
-
     $url = $url_alfresco . ':' . $port_alfresco . '/alfresco/service/api/login';
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_URL, $url);
