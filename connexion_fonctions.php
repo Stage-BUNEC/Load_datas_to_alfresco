@@ -6,6 +6,9 @@ $pass_alfresco = 'bunec'; // Mot de Passe de l'utilisateur
 
 function loginToAlfrsco(String $url_alfresco, String $port_alfresco, String $user_alfresco, String $pass_alfresco): string
 {
+    # Cette fonction permet de recuperer le ticket de connexion à Alfresco
+    # et retourne ce ticket/token dans ($ticket)
+
     $url = $url_alfresco . ':' . $port_alfresco . '/alfresco/service/api/login';
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_URL, $url);
@@ -33,6 +36,9 @@ function loginToAlfrsco(String $url_alfresco, String $port_alfresco, String $use
 
 function getShareNode(String $url_alfresco, String $port_alfresco, String $ticket): String
 {
+    # Cette fonction recupere l'ID du Noeud/Dossier "Shared/Partagé" de Alfresco
+    # et retourne cet ID ($node_partage)
+
     $node_partage = '';
     $url = $url_alfresco . ':' . $port_alfresco . '/alfresco/api/-default-/public/alfresco/versions/1/nodes/-root-/children?alf_ticket=' . $ticket;
     $crl = curl_init();
@@ -64,12 +70,15 @@ function getShareNode(String $url_alfresco, String $port_alfresco, String $ticke
 
 function extract_Register_And_Filename(int $argc, String $metaDataFile): array
 {
+    # Cette fonction extrait le numero de registre et et le nom du fichier pdf contenu dans
+    # Le 1er champ du fichier des meta-donnees.
+    # Ces donnees sont contenues dans le tableau retourné.
+
     if ($argc != 2) {
         echo "mauvais usage du script\n";
         echo "Usage:\n		php script.php fichier\n";
         exit(1);
     }
-
     $postFields = array(
         'uploadFieldName' => "",
     );
@@ -83,12 +92,10 @@ function extract_Register_And_Filename(int $argc, String $metaDataFile): array
         $postFields[$cle] = $resultat; # ajout du resultat dans postFields
         $compte = $compte + 1;
     }
-
     foreach ($postFields as $cle => $element) {
         $path = "$cle => $element\n";
 
     }
-
     $registre = substr($path, -42, 16);
     $file_name = substr($path, -25, 25);
 
@@ -97,6 +104,10 @@ function extract_Register_And_Filename(int $argc, String $metaDataFile): array
 
 function createRegister(String $url_alfresco, String $port_alfresco, String $ticket, String $node_partage, String $registre)
 {
+    # Cette fonction cree un Noeud/Dossier (vide) dans Alfresco. Ce dossier est un registre
+    # [$registre] : contient le numero de registre (sera le nom du dossier cree)
+    # [$node_partage] : contient l'ID du dossier Shared/Partagé de Alfresco (ou sera cree le Noeud)
+
     $url_verif = $url_alfresco . ':' . $port_alfresco . '/alfresco/api/-default-/public/alfresco/versions/1/nodes/' . $node_partage . '/children?alf_ticket=' . $ticket; //verification du registre dans le dossier 'Partagé'
     $crl = curl_init();
     curl_setopt($crl, CURLOPT_URL, $url_verif);
@@ -138,23 +149,29 @@ function createRegister(String $url_alfresco, String $port_alfresco, String $tic
 
 function get_all_metaDatas(int $argc, $metaDataFile, String $registre, String $file): array
 {
+    # Cette fonction recupere toutes les meta-donnees et retourne le tableau ($postFields) les contenants
+    # [$registre] : contient le numero de registre
+    # [$file] : contient le nom du fichier pdf a envoyer
+
     if ($argc != 2) {
         echo "mauvais usage du script\n";
-        echo "Usage:\n		php script.php fichier\n";
+        echo "Usage:\n		php script.php fichier_de_meta_donnees\n";
         exit(1);
     }
 
     $filename = $metaDataFile;
     $data = '';
+    // Recuperation des meta-donnees du fichier
     if (fopen($filename, 'r')) {
         $handle = fopen($filename, 'r');
         $data .= fread($handle, filesize($filename));
-
         fclose($handle);
     }
+    // chargement des meta-donnees lues dans la variable $data
     $data = preg_split("/[#]/", $data);
     $data[27] = trim($registre);
     $data[28] = trim($file);
+    // Chargement de toutes les donnees dans $postFields
     $postFields = array(
         'relativePath' => $data[27],
         'filedata' => new CURLFILE($data[28]),
@@ -189,11 +206,12 @@ function get_all_metaDatas(int $argc, $metaDataFile, String $registre, String $f
     return $postFields;
 }
 
-function send_datas(String $url_alfresco, String $port_alfresco, String $ticket, array $postFields, String $file)
+function send_datas(String $url_alfresco, String $port_alfresco, String $ticket, array $postFields)
 {
+    # Cette fonction permet d'envoyer les Meta-donnees et le fichier à Alfresco
+    # [$postFields] : Ce parametre contient les meta-donnees et le fichier a envoyer
 
     $api = $url_alfresco . ':' . $port_alfresco . '/alfresco/api/-default-/public/alfresco/versions/1/nodes/-shared-/children?alf_ticket=' . $ticket;
-
     //Initiate cURL
     $ch = curl_init();
     //Set the URL
@@ -206,7 +224,7 @@ function send_datas(String $url_alfresco, String $port_alfresco, String $ticket,
     curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
     //Execute the request
     $result = curl_exec($ch);
-    print_r($result);
+    //print_r($result);
     if (curl_errno($ch)) {
         throw new Exception(curl_error($ch));
     }

@@ -28,4 +28,4 @@ $postFields = get_all_metaDatas($argc, $argv[1], $registre, $file);
 //print_r($postFields);
 
 // Envoie des donnees à Alfresco
-send_datas($url_alfresco, $port_alfresco, $ticket, $postFields, $file);
+send_datas($url_alfresco, $port_alfresco, $ticket, $postFields);
