@@ -98,7 +98,6 @@ function extract_Register_And_Filename(int $argc, String $metaDataFile): array
 
 function createRegister(String $url_alfresco, String $port_alfresco, String $ticket, String $node_partage, String $registre)
 {
-
     $url_verif = $url_alfresco . ':' . $port_alfresco . '/alfresco/api/-default-/public/alfresco/versions/1/nodes/' . $node_partage . '/children?alf_ticket=' . $ticket; //verification du registre dans le dossier 'Partagé'
     $crl = curl_init();
     curl_setopt($crl, CURLOPT_URL, $url_verif);
