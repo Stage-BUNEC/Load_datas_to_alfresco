@@ -19,14 +19,13 @@ $file = $extract_Datas['nom_fichier'];
 $data = trim($registre) . '#';
 $data1 = trim($file) . '#';
 $filename = $argv[1];
-$uploadFieldName = 'filedata';
-$output = shell_exec('echo ' . $data . '  >> ' . $filename);
-$output = shell_exec('echo ' . $data1 . '  >> ' . $filename);
 
 // Creation du Registre dans ALFRESCO
 createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);
 
-// function load_all_metaDatas():array
-// {
+// Recuperation de TOUTES les meta-donnees
+$postFields = get_all_metaDatas($argc, $argv[1], $registre, $file);
+//print_r($postFields);
 
-// }
+// Envoie des donnees à Alfresco
+send_datas($url_alfresco, $port_alfresco, $ticket, $postFields, $file);
