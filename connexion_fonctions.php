@@ -147,17 +147,11 @@ function createRegister(String $url_alfresco, String $port_alfresco, String $tic
     }
 }
 
-function get_all_metaDatas(int $argc, $metaDataFile, String $registre, String $file): array
+function get_all_metaDatas($metaDataFile, String $registre, String $file): array
 {
     # Cette fonction recupere toutes les meta-donnees et retourne le tableau ($postFields) les contenants
     # [$registre] : contient le numero de registre
     # [$file] : contient le nom du fichier pdf a envoyer
-
-    if ($argc != 2) {
-        echo "mauvais usage du script\n";
-        echo "Usage:\n		php script.php fichier_de_meta_donnees\n";
-        exit(1);
-    }
 
     $filename = $metaDataFile;
     $data = '';
@@ -169,12 +163,11 @@ function get_all_metaDatas(int $argc, $metaDataFile, String $registre, String $f
     }
     // chargement des meta-donnees lues dans la variable $data
     $data = preg_split("/[#]/", $data);
-    $data[27] = trim($registre);
-    $data[28] = trim($file);
+
     // Chargement de toutes les donnees dans $postFields
     $postFields = array(
-        'relativePath' => $data[27],
-        'filedata' => new CURLFILE($data[28]),
+        'relativePath' => $registre,
+        'filedata' => new CURLFILE($file),
         'bc:numact' => $data[1],
         'bc:firstname' => $data[2],
         'bc:lastname' => $data[3],

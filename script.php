@@ -1,5 +1,17 @@
 <?php
 
+# [ Date ]  :27-08-2022
+# [ Description ] :Ce script sert à charger les fichiers PDF avec leurs Méta-données dans Alfresco
+# [Authors ] : Mr GAEL MANI / NANFACK STEVE
+
+// Verification des Arguments
+if ($argc != 3) {
+    echo "Mauvais usage du script\n";
+    echo "Usage:	php script.php fichier_de_meta_donnees\n";
+    die();
+}
+
+// Inclusion des fonctions Utiles
 include_once 'connexion_fonctions.php';
 
 // Connexion a Alfresco
@@ -14,14 +26,14 @@ $node_partage = getShareNode($url_alfresco, $port_alfresco, $ticket);
 $extract_Datas = extract_Register_And_Filename($argc, $argv[1]);
 
 // Ajout des donnees Extrais a la fin du fichier des MetaDonnees
-$registre = $extract_Datas['registre'];
-$file = $extract_Datas['nom_fichier'];
+$registre = trim($extract_Datas['registre']);
+$file = trim($extract_Datas['nom_fichier']);
 
 // Creation du Registre dans ALFRESCO
 createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);
 
 // Recuperation de TOUTES les meta-donnees
-$postFields = get_all_metaDatas($argc, $argv[1], $registre, $file);
+$postFields = get_all_metaDatas($argv[1], $registre, $file);
 //print_r($postFields);
 
 // Envoie des donnees à Alfresco
