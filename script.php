@@ -16,9 +16,6 @@ $extract_Datas = extract_Register_And_Filename($argc, $argv[1]);
 // Ajout des donnees Extrais a la fin du fichier des MetaDonnees
 $registre = $extract_Datas['registre'];
 $file = $extract_Datas['nom_fichier'];
-$data = trim($registre) . '#';
-$data1 = trim($file) . '#';
-$filename = $argv[1];
 
 // Creation du Registre dans ALFRESCO
 createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);
