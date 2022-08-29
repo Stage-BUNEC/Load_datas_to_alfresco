@@ -68,40 +68,6 @@ function getShareNode(String $url_alfresco, String $port_alfresco, String $ticke
     return $node_partage;
 }
 
-function extract_Register_And_Filename(int $argc, String $metaDataFile): array
-{
-    # Cette fonction extrait le numero de registre et et le nom du fichier pdf contenu dans
-    # Le 1er champ du fichier des meta-donnees.
-    # Ces donnees sont contenues dans le tableau retourné.
-
-    if ($argc != 2) {
-        echo "mauvais usage du script\n";
-        echo "Usage:\n		php script.php fichier\n";
-        exit(1);
-    }
-    $postFields = array(
-        'uploadFieldName' => "",
-    );
-    $compte = 1; #cette variable aide a selectionner un champ different a chaque iteration
-    #cette boucle permet de parcourir tout les champs du tableau postFields
-
-    foreach ($postFields as $cle => $element) {
-
-        $commande = 'cut -d# -f' . $compte . ' ' . $metaDataFile; # construction de la commande
-        $resultat = shell_exec($commande); # execution de la commande et recuperation du reslutat
-        $postFields[$cle] = $resultat; # ajout du resultat dans postFields
-        $compte = $compte + 1;
-    }
-    foreach ($postFields as $cle => $element) {
-        $path = "$cle => $element\n";
-
-    }
-    $registre = substr($path, -42, 16);
-    $file_name = substr($path, -25, 25);
-
-    return array('registre' => $registre, 'nom_fichier' => $file_name);
-}
-
 function createRegister(String $url_alfresco, String $port_alfresco, String $ticket, String $node_partage, String $registre)
 {
     # Cette fonction cree un Noeud/Dossier (vide) dans Alfresco. Ce dossier est un registre

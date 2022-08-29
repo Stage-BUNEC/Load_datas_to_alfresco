@@ -23,11 +23,8 @@ $node_partage = getShareNode($url_alfresco, $port_alfresco, $ticket);
 //echo "Noeud = " . $node_partage;
 
 // Extraction du No de Registre et du Nom du fichier parmi les Meta-donnees
-$extract_Datas = extract_Register_And_Filename($argc, $argv[1]);
-
-// Ajout des donnees Extrais a la fin du fichier des MetaDonnees
-$registre = trim($extract_Datas['registre']);
-$file = trim($extract_Datas['nom_fichier']);
+$registre = trim(shell_exec("cut -d '/' -f 10 " . $argv[1]));
+$file = trim(shell_exec("cut -d '/' -f 11 " . $argv[1] . " | cut -d '#' -f 1"));
 
 // Creation du Registre dans ALFRESCO
 createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);
