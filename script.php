@@ -1,6 +1,6 @@
 <?php
 
-# [ Date ]  :27-08-2022
+# [ Date ]  :29-08-2022
 # [ Description ] :Ce script sert à charger les fichiers PDF avec leurs Méta-données dans Alfresco
 # [Authors ] : Mr GAEL MANI / NANFACK STEVE
 
