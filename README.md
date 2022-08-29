@@ -1,6 +1,6 @@
 # Load Datas to Alfresco
 
-This repo content the script to load datas in Alfresco
+This script is used to load datas (Anteriorite) in Alfresco
 
 ## Description
 

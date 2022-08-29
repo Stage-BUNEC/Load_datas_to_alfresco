@@ -5,7 +5,7 @@
 # [Authors ] : Mr GAEL MANI / NANFACK STEVE
 
 // Verification des Arguments
-if ($argc != 3) {
+if ($argc != 2) {
     echo "Mauvais usage du script\n";
     echo "Usage:	php script.php fichier_de_meta_donnees\n";
     die();
