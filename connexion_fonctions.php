@@ -1,4 +1,5 @@
 <?php
+
 $url_alfresco = 'http://172.16.1.99'; // URL du serveur Alfresco
 $port_alfresco = '8080'; // Port
 $user_alfresco = 'admin'; // User Alfresco
@@ -113,18 +114,26 @@ function createRegister(String $url_alfresco, String $port_alfresco, String $tic
     }
 }
 
+function renameFiles(String $oldFileName, String $oldMetaDatasName, String $newFileName): array
+{
+    shell_exec("mv " . $oldFileName . " " . $newFileName);
+    $newMetaDatasName = str_replace("pdf", "txt", $newFileName);
+    shell_exec("mv " . $oldMetaDatasName . " " . $newMetaDatasName);
+
+    return array('newMetaDatasName' => $newMetaDatasName, 'newFileName' => $newFileName);
+}
+
 function get_all_metaDatas($metaDataFile, String $registre, String $file): array
 {
     # Cette fonction recupere toutes les meta-donnees et retourne le tableau ($postFields) les contenants
     # [$registre] : contient le numero de registre
     # [$file] : contient le nom du fichier pdf a envoyer
 
-    $filename = $metaDataFile;
     $data = '';
     // Recuperation des meta-donnees du fichier
-    if (fopen($filename, 'r')) {
-        $handle = fopen($filename, 'r');
-        $data .= fread($handle, filesize($filename));
+    if (fopen($metaDataFile, 'r')) {
+        $handle = fopen($metaDataFile, 'r');
+        $data .= fread($handle, filesize($metaDataFile));
         fclose($handle);
     }
     // chargement des meta-donnees lues dans la variable $data
@@ -188,3 +197,4 @@ function send_datas(String $url_alfresco, String $port_alfresco, String $ticket,
         throw new Exception(curl_error($ch));
     }
 }
+
