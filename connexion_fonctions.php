@@ -1,5 +1,4 @@
 <?php
-
 $url_alfresco = 'http://172.16.1.99'; // URL du serveur Alfresco
 $port_alfresco = '8080'; // Port
 $user_alfresco = 'admin'; // User Alfresco
@@ -114,61 +113,45 @@ function createRegister(String $url_alfresco, String $port_alfresco, String $tic
     }
 }
 
-function renameFiles(String $oldFileName, String $oldMetaDatasName, String $newFileName): array
+function get_all_metaDatas(String $path, String $metaDatas, String $registre, String $fileName): array
 {
-    shell_exec("mv " . $oldFileName . " " . $newFileName);
-    $newMetaDatasName = str_replace("pdf", "txt", $newFileName);
-    shell_exec("mv " . $oldMetaDatasName . " " . $newMetaDatasName);
-
-    return array('newMetaDatasName' => $newMetaDatasName, 'newFileName' => $newFileName);
-}
-
-function get_all_metaDatas($metaDataFile, String $registre, String $file): array
-{
-    # Cette fonction recupere toutes les meta-donnees et retourne le tableau ($postFields) les contenants
+    # Cette fonction recupere toutes les meta-donnees et retourne le tableau ($postFields) les contenants.
     # [$registre] : contient le numero de registre
-    # [$file] : contient le nom du fichier pdf a envoyer
+    # [$fileName] : contient le nom du fichier pdf a envoyer
 
-    $data = '';
-    // Recuperation des meta-donnees du fichier
-    if (fopen($metaDataFile, 'r')) {
-        $handle = fopen($metaDataFile, 'r');
-        $data .= fread($handle, filesize($metaDataFile));
-        fclose($handle);
-    }
     // chargement des meta-donnees lues dans la variable $data
-    $data = preg_split("/[#]/", $data);
+    $data = preg_split("/[#]/", $metaDatas);
 
     // Chargement de toutes les donnees dans $postFields
     $postFields = array(
-        'relativePath' => $registre,
-        'filedata' => new CURLFILE($file),
-        'bc:numact' => $data[1],
-        'bc:firstname' => $data[2],
-        'bc:lastname' => $data[3],
-        'bc:bornOnThe' => $data[4],
-        'bc:bornAt' => $data[5],
-        'bc:sex' => $data[6],
-        'bc:of' => $data[7],
-        'bc:fOnThe' => $data[8],
-        'bc:fAt' => $data[9],
-        'bc:fresid' => $data[10],
-        'bc:foccupation' => $data[11],
-        'bc:fnationality' => $data[12],
-        'bc:fdocref' => $data[13],
-        'bc:mof' => $data[14],
-        'bc:mAt' => $data[15],
-        'bc:mOnThe' => $data[16],
-        'bc:mresid' => $data[17],
-        'bc:mOccupation' => $data[18],
-        'bc:mnationality' => $data[19],
-        'bc:mdocref' => $data[20],
-        'bc:drawingUp' => $data[21],
-        'bc:ondecof' => $data[22],
-        'bc:byUs' => $data[23],
-        'bc:assistedof' => $data[24],
-        'bc:onthe' => $data[25],
-        'bc:mentionMarg' => $data[26],
+        'relativePath' => $path,
+        'filedata' => new CURLFILE($path . "/" . $fileName),
+        'bc:numact' => $data[6],
+        'bc:firstname' => $data[0],
+        'bc:lastname' => $data[1],
+        'bc:bornOnThe' => $data[2],
+        'bc:bornAt' => $data[3],
+        'bc:sex' => $data[4],
+        'bc:of' => $data[5],
+        'bc:fOnThe' => $data[7],
+        'bc:fAt' => $data[8],
+        'bc:fresid' => $data[9],
+        'bc:foccupation' => $data[10],
+        'bc:fnationality' => $data[11],
+        'bc:fdocref' => $data[12],
+        'bc:mof' => $data[13],
+        'bc:mAt' => $data[14],
+        'bc:mOnThe' => $data[15],
+        'bc:mresid' => $data[16],
+        'bc:mOccupation' => $data[17],
+        'bc:mnationality' => $data[18],
+        'bc:mdocref' => $data[19],
+        'bc:drawingUp' => $data[20],
+        'bc:ondecof' => $data[21],
+        'bc:byUs' => $data[22],
+        'bc:assistedof' => $data[23],
+        'bc:onthe' => $data[24],
+        'bc:mentionMarg' => '//',
     );
 
     return $postFields;
@@ -197,4 +180,3 @@ function send_datas(String $url_alfresco, String $port_alfresco, String $ticket,
         throw new Exception(curl_error($ch));
     }
 }
-

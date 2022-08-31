@@ -1,18 +1,15 @@
 # Load Datas to Alfresco
 
-This script is used to load datas (Anteriorite) in Alfresco
+This script is used to load datas (Digitalisation) in Alfresco
 
 ## Description
 
-<li> <b>0844_86_.txt</b> contains metadata</li>
-<li> <b>0844_86_.pdf</b> is the (test) pdf file to send with its metadata </li>
-<li><b>cleanFiles*.sh</b> is the file renaming script</li>
-<li><b>connection_functions*.php</b> is a function configuration and declaration file</li>
-<li> <b>script*.php</b> is the dump script in Alfresco</li>
-<li><b>load*.sh</b> is the main script to run</li>
+<li> <b>*.bunec</b> contient les meta-données</li>
+<li> <b>script.php</b> est le script principal à exécuter</li>
+<li> <b>[dossier de date]</b> est le dossier contenant les fichiers pdf (de test) à envoyer avec leur méta-données respectifs</li>
 
 ## How to use ?
 
 ```
-bash load.sh
+php script.php 17-08-2022 17-08-2022.bunec 
 ```
