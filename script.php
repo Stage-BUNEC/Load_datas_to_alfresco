@@ -16,11 +16,11 @@ include_once 'connexion_fonctions.php';
 $dossier_cible = "/opt/consolidation/";
 
 // Connexion a Alfresco
-$ticket = loginToAlfrsco($url_alfresco, $port_alfresco, $user_alfresco, $pass_alfresco);
+//$ticket = loginToAlfrsco($url_alfresco, $port_alfresco, $user_alfresco, $pass_alfresco);
 //echo $ticket;
 
 // Recuperation du Noeud 'Partage/Shared'
-$node_partage = getShareNode($url_alfresco, $port_alfresco, $ticket);
+//$node_partage = getShareNode($url_alfresco, $port_alfresco, $ticket);
 //echo "Noeud = " . $node_partage;
 
 // Extraction du No de Registre et du Nom du fichier parmi les Meta-donnees
@@ -28,7 +28,7 @@ $registre = trim(shell_exec("head -n 1 " . $argv[2] . " | cut -d '#' -f 1 | awk 
 $fileName = trim(shell_exec("head -n 1 " . $argv[2] . " | cut -d '#' -f 1 | awk -F/ '{print $(NF)}' "));
 
 // Creation du Registre dans ALFRESCO
-createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);
+//createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);
 
 // Renommage des fichiers
 $newNames = renameFiles($argv[1], $argv[2], $fileName);
@@ -38,9 +38,12 @@ $postFields = get_all_metaDatas($newNames['newMetaDatasName'], $registre, $fileN
 //print_r($postFields);
 
 // Envoie des donnees à Alfresco
-send_datas($url_alfresco, $port_alfresco, $ticket, $postFields);
+//send_datas($url_alfresco, $port_alfresco, $ticket, $postFields);
 
-// Deplacement des fichiers [pdf] et [metadDonnees]
-shell_exec("mv " . $newNames['newMetaDatasName'] . " " . $dossier_cible);
-shell_exec("mv " . $newNames['newFileName'] . " " . $dossier_cible);
+// Deplacement des fichiers [pdf] et [metadDonnees] dans un dossier journalier cible
+$dossier_journalier = trim(shell_exec("date -I"));
+$chemin_complet = $dossier_cible . $dossier_journalier;
+shell_exec("if [ ! -d " . $chemin_complet . " ]; then mkdir -p " . $chemin_complet . " ; fi");
 
+shell_exec("mv " . $newNames['newMetaDatasName'] . " " . $chemin_complet);
+shell_exec("mv " . $newNames['newFileName'] . " " . $chemin_complet);
