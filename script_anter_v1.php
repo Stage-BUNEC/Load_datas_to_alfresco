@@ -1,18 +1,18 @@
 <?php
 
-# [ Date ] : 30-08-2022
+# [ Date ]        : 31-08-2022
 # [ Description ] : Ce script sert à charger les fichiers PDF avec leurs Méta-données dans Alfresco
-# [Author(s) ] : Mr GAEL MANI / NANFACK STEVE
+# [Author(s) ]    : Mr GAEL MANI / NANFACK STEVE
 
 // Verification des Arguments
 if ($argc != 3) {
     echo "Mauvais usage du script\n";
-    echo "Usage:	php script.php fichier_pdf fichier_de_meta_donnees\n";
+    echo "Usage:	php script_anter_v1.php fichier_pdf fichier_de_meta_donnees\n";
     die();
 }
 
 // Inclusion des fonctions Utiles
-include_once 'connexion_fonctions.php';
+include_once 'connexion_fonctions_anter_v1.php';
 $dossier_cible = "/opt/consolidation/";
 
 // Connexion a Alfresco
