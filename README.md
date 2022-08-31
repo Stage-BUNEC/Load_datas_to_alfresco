@@ -4,9 +4,9 @@ This script is used to load datas (Digitalisation) in Alfresco
 
 ## Description
 
-<li> <b>*.bunec</b> contient les meta-données</li>
-<li> <b>script.php</b> est le script principal à exécuter</li>
-<li> <b>[dossier de date]</b> est le dossier contenant les fichiers pdf (de test) à envoyer avec leur méta-données respectifs</li>
+<li> <b>*.bunec</b> contains metadata</li>
+<li> <b>script.php</b> is the main script to run</li>
+<li> <b>[date folder]</b> is the folder containing the (test) pdf files to send with their respective metadata</li>
 
 ## How to use ?
 
