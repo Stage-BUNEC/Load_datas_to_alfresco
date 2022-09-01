@@ -114,11 +114,16 @@ function createRegister(String $url_alfresco, String $port_alfresco, String $tic
     }
 }
 
-function renameFiles(String $oldFileName, String $oldMetaDatasName, String $newFileName): array
+function renameFiles(String $oldFileName, String $oldMetaDatasName, String $newFileName, String $workPath): array
 {
-    shell_exec("mv " . $oldFileName . " " . $newFileName);
+    # pour avoir le (nouveau) nom du fichier de meta-donnees on remplace 'pdf' par 'txt'
     $newMetaDatasName = str_replace("pdf", "txt", $newFileName);
+    $newMetaDatasName = $workPath . $newMetaDatasName;
     shell_exec("mv " . $oldMetaDatasName . " " . $newMetaDatasName);
+
+    # On ajoute le Path du dossier de travail au (nouveau) nom (extrait dans les meta-donnees precedemmant)
+    $newFileName = $workPath . $newFileName;
+    shell_exec("mv " . $oldFileName . " " . $newFileName);
 
     return array('newMetaDatasName' => $newMetaDatasName, 'newFileName' => $newFileName);
 }
@@ -197,4 +202,3 @@ function send_datas(String $url_alfresco, String $port_alfresco, String $ticket,
         throw new Exception(curl_error($ch));
     }
 }
-
