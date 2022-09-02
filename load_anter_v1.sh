@@ -28,9 +28,9 @@ if [ ! -d "$dossierCible" ]; then
     mkdir -p "$dossierCible"
 fi
 
-# echo -ne "\nNettoyage des fichiers..."
-# . cleanFiles_anter_v1.sh 2>>cleanFiles_anter_v1.log
-# echo -ne "[ OK ]\n"
+echo -ne "\nNettoyage des fichiers..."
+. cleanFiles_anter_v1.sh 2>>"$workDir"cleanFiles_anter_v1.log
+echo -ne "[ OK ]\n"
 
 fichTraites=0
 echo -ne "\nChargement des donnees dans ALFRESCO..."
@@ -39,7 +39,7 @@ for files in $(ls -t | grep "pdf"); do
     metaDonnee=$(echo "$files" | sed s/"pdf"/"txt"/g)
     metaDonnees=$(echo "$workDir$metaDonnee")
     fileName=$(echo "$workDir$files")
-    php script_anter_v1.php "$fileName" "$metaDonnees" "$workDir" "$dossierCible" 2>>script_anter_v1.log
+    php script_anter_v1.php "$fileName" "$metaDonnees" "$workDir" "$dossierCible" 2>>"$workDir"script_anter_v1.log
     #echo -ne "($fichTraites)"
 done
 echo -ne "[ OK ]\n\n"
