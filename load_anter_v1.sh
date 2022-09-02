@@ -35,19 +35,19 @@ fi
 # ----------------- Nettoyage --------------------------
 
 echo -ne "\nNettoyage des fichiers..."
-. cleanFiles_anter_v1.sh 2>>"$dossier_travail"error_cleanFiles_anter_v1.log
+. cleanFiles_anter_v1.sh 2>"$dossier_travail"error_cleanFiles_anter_v1.log
 echo -ne " - [ OK ]\n"
 
 # ----------- Chargement dans Alfrsco ------------------
 
 fichierTraites=0
 echo -ne "\n"
-for files in $(ls -t | grep "pdf"); do
+for files in $(ls -t "$dossier_travail" | grep "pdf"); do
     metaDonnee=$(echo "$files" | sed s/"pdf"/"txt"/g)
     metaDonnees="$dossier_travail$metaDonnee"
     fileName=$"$dossier_travail$files"
 
-    php script_anter_v1.php "$fileName" "$metaDonnees" "$dossier_travail" "$dossierCible" 2>>"$dossier_travail"error_script_anter_v1.log
+    php script_anter_v1.php "$fileName" "$metaDonnees" "$dossier_travail" "$dossierCible" 2>"$dossier_travail"error_script_anter_v1.log
     fichierTraites=$((fichierTraites + 1))
     echo -ne "\rChargement des donnees dans ALFRESCO...($fichierTraites) envoyée(s)"
 done
