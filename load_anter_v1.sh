@@ -67,5 +67,5 @@ echo "$date#$typeDossierConsolid#$codeCEC#$typeDossierActes#v1#$totalPDF#$fichie
 # -------------- Deplacement dans les registres ---------------------------------
 
 echo -ne "Classement des actes..."
-. rangement.sh "$dossierCible"
+. rangement.sh "$dossierCible" 2>"$dossierCible"_error_range.log
 echo -ne " [ OK ] \n\n"
