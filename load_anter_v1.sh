@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# [ Date ]        : 02-09-2022
+# [ Date ]        : 05-09-2022
 # [ Description ] : Ce script sert à AUTOMATISER l'envoie des fichiers PDF avec leurs Méta-données dans Alfresco
-# [Author(s) ]    : NANFACK STEVE
+# [ Author(s) ]   : NANFACK STEVE
 
 dossier_travail=$1
 dossier_stats=/tools/
@@ -55,10 +55,17 @@ echo -ne " - [ OK ]\n\n"
 
 # -------------------- Gestion des Statistiques ----------------------------------
 
+champs_stats="Date#type_Consolid#Code_CEC#type_Actes#orgnasition_fichiers#Total_Actes#Total_charges#"
+
 if [ ! -d "$dossier_stats" ]; then
     mkdir -p "$dossier_stats"
-    echo "Date#type_Consolid#Code_CEC#type_Actes#orgnasition_fichiers#Total_Actes#Total_charges#" >"$dossier_stats"stats_"$date".csv
+    echo "$champs_stats" >"$dossier_stats"stats_"$date".csv
 fi
+
 echo "$date#$typeDossierConsolid#$codeCEC#$typeDossierActes#v1#$totalPDF#$fichierTraites#" >>"$dossier_stats"stats_"$date".csv
 
 # -------------- Deplacement dans les registres ---------------------------------
+
+echo -ne "Classement des actes..."
+. rangement.sh "$dossierCible"
+echo -ne " [ OK ] \n\n"
