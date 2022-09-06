@@ -24,12 +24,12 @@ rplNbr=0
 for file in $(ls -t "$workDir" | grep -E "^[_]**.pdf|^[_]**.txt"); do
     if [[ $file == *"pdf"* ]]; then
         #echo "$file" is "pdf"
-        mv "$workDir$file" "$workDir""no_num_act_"$i".pdf"
+        mv "$workDir$file" "$workDir""no_num_act_$i.pdf"
         rplNbr=$((rplNbr + 1))
     fi
     if [[ $file == *"txt"* ]]; then
         #echo "$file" is "txt"
-        mv "$workDir$file" "$workDir""no_num_act_"$i".txt"
+        mv "$workDir$file" "$workDir""no_num_act_$i.txt"
         rplNbr=$((rplNbr + 1))
     fi
     if [ $rplNbr -eq 2 ]; then
@@ -47,7 +47,7 @@ for file in $(ls -t "$workDir" | grep -E "*(_{1,}.txt)$|*(_{1,}.pdf)$"); do
 done
 
 for file in $(ls -t "$workDir" | grep -E "*(_{1,}.txt)$"); do
-    newEnd=$(echo $file | sed -E s/"(_{1,}.txt)$"/.txt/g)
+    newEnd=$(echo "$file" | sed -E s/"(_{1,}.txt)$"/.txt/g)
     if [ "$file" != "$newBegin" ]; then
         mv "$workDir$file" "$workDir$newEnd"
     fi
