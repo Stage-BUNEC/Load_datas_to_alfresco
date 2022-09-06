@@ -25,7 +25,7 @@ include_once 'connexion_fonctions_anter_v1.php';
 // Extraction du No de Registre et du Nom du fichier parmi les Meta-donnees
 // (NB: ils n'ont pas le Path du workDir)
 $registre = trim(shell_exec("head -n 1 " . $argv[2] . " | cut -d '#' -f 1 | awk -F/ '{print $(NF-1)}' "));
-if (empty($registre)) {echo "\n\nErreur: Metadonnees vides !\n\n";die();}
+if (empty($registre)) {echo "\n\nErreur: Metadonnees inaccessibles ou vides !\n\n";die();}
 $fileName = trim(shell_exec("head -n 1 " . $argv[2] . " | cut -d '#' -f 1 | awk -F/ '{print $(NF)}' "));
 
 // Creation du Registre dans ALFRESCO

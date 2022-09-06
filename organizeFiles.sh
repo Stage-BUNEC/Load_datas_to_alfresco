@@ -18,7 +18,7 @@ for file in "$dossier_cible"*.txt; do
         echo "$registre" >>"$dossier_cible$liste_resgistres"
     fi
 
-    # Classement des actes
+    # Classement des actes et meta-donnees
     mv "$file" "$dossier_cible$registre"
     fichier_acte=$(echo "$file" | sed s/"txt"/"pdf"/g)
     mv "$fichier_acte" "$dossier_cible$registre"

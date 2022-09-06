@@ -47,8 +47,7 @@ echo -ne " - [ OK ]\n"
 fichierTraites=0
 echo -ne "\n"
 for files in $(ls -t "$dossier_travail" | grep "pdf"); do
-    metaDonnee=$(echo "$files" | sed s/"pdf"/"txt"/g)
-    metaDonnees="$dossier_travail$metaDonnee"
+    metaDonnees="$dossier_travail${files//pdf/txt}"
     fileName=$"$dossier_travail$files"
 
     php script_anter_v1.php "$fileName" "$metaDonnees" "$dossier_travail" "$dossierCible" 2>"$dossier_travail"error_script_anter_v1.log
@@ -61,9 +60,13 @@ echo -ne " - [ OK ]\n\n"
 
 champs_stats="Date#type_Consolid#Code_CEC#type_Actes#orgnasition_fichiers#Total_Actes#Total_charges#"
 totalCharges=$(ls "$dossierCible/"*.pdf | wc -l)
+fichier_stats="$dossier_stats"stats_"$date".csv 
 
 if [ ! -d "$dossier_stats" ]; then
     mkdir -p "$dossier_stats"
+fi
+
+if [ ! -e "$fichier_stats" ];then
     echo "$champs_stats" >"$dossier_stats"stats_"$date".csv
 fi
 
@@ -72,5 +75,5 @@ echo "$date#$typeDossierConsolid#$codeCEC#$typeDossierActes#v1#$totalPDF#$totalC
 # -------------- Deplacement dans les registres ---------------------------------
 
 echo -ne "Classement des actes..."
-. rangement.sh "$dossierCible" 2>"$dossierCible"_error_range.log
+. organizeFiles.sh "$dossierCible" 2>"$dossierCible"_error_range.log
 echo -ne " [ OK ] \n\n"
