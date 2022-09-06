@@ -2,7 +2,7 @@
 
 # [ Date ]        : 05-09-2022
 # [ Description ] : Ce script sert à classer les actes dans leur registre respectifs
-# [ Author(s) ]    : NANFACK STEVE
+# [ Author(s) ]   : NANFACK STEVE
 
 dossier_cible=$1"/"
 liste_resgistres=liste_registres.txt

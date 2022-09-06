@@ -2,7 +2,7 @@
 
 # [ Date ]        : 05-09-2022
 # [ Description ] : Ce script sert à charger les fichiers PDF avec leurs Méta-données dans Alfresco
-# [ Author(s) ]    : Mr GAEL MANI / NANFACK STEVE
+# [ Author(s) ]   : Mr GAEL MANI / NANFACK STEVE
 
 // Verification des Arguments
 if ($argc < 3) {
@@ -25,8 +25,8 @@ include_once 'connexion_fonctions_anter_v1.php';
 // Extraction du No de Registre et du Nom du fichier parmi les Meta-donnees
 // (NB: ils n'ont pas le Path du workDir)
 $registre = trim(shell_exec("head -n 1 " . $argv[2] . " | cut -d '#' -f 1 | awk -F/ '{print $(NF-1)}' "));
+if (empty($registre)) {echo "\n\nErreur: Metadonnees vides !\n\n";die();}
 $fileName = trim(shell_exec("head -n 1 " . $argv[2] . " | cut -d '#' -f 1 | awk -F/ '{print $(NF)}' "));
-if (empty($registre) || empty($fileName)) {echo "\nErreur: Metadonnees vides !\n";die();}
 
 // Creation du Registre dans ALFRESCO
 //createRegister($url_alfresco, $port_alfresco, $ticket, $node_partage, $registre);

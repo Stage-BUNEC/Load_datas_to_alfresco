@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# [ Date ]        : 02-09-2022
+# [ Date ]        : 04-09-2022
 # [ Description ] : Ce script sert à bien renommer les fichiers *.pdf et *.txt
 # [ Author(s) ]   : Mr PROSPERE OTTOU / Mr GAEL MANI / NANFACK STEVE
 
