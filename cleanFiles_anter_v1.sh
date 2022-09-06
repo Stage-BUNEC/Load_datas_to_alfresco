@@ -24,12 +24,12 @@ rplNbr=0
 for file in $(ls -t "$workDir" | grep -E "^[_]**.pdf|^[_]**.txt"); do
     if [[ $file == *"pdf"* ]]; then
         #echo "$file" is "pdf"
-        mv "$workDir$file" "no_num_act_"$i".pdf"
+        mv "$workDir$file" "$workDir""no_num_act_"$i".pdf"
         rplNbr=$((rplNbr + 1))
     fi
     if [[ $file == *"txt"* ]]; then
         #echo "$file" is "txt"
-        mv "$workDir$file" "no_num_act_"$i".txt"
+        mv "$workDir$file" "$workDir""no_num_act_"$i".txt"
         rplNbr=$((rplNbr + 1))
     fi
     if [ $rplNbr -eq 2 ]; then
