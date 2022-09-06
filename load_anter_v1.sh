@@ -17,6 +17,10 @@ if [ ! -d "$dossier_travail" ]; then
     echo -e "\nErreur: Dossier inexistant !\n"
     exit 1
 fi
+if [ ! "$(ls -A "$dossier_travail")" ]; then # test si dossier Vide
+    echo -e "\nErreur: Dossier Vide !\n"
+    exit 1
+fi
 
 # -- Extraction des infos [ du chemin des donnees sources] --------
 
