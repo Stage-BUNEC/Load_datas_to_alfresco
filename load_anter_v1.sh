@@ -13,7 +13,7 @@ if [ ! "${dossier_travail: -1}" = '/' ]; then
     echo -e "\nErreur: Ajouter un '/' a la fin du dossier\n"
     exit 1
 fi
-if [ ! -d "$dossier_travail" ]; then
+if [ ! -d "$dossier_travail" ]; then # test si dossier existe
     echo -e "\nErreur: Dossier inexistant !\n"
     exit 1
 fi
@@ -32,7 +32,7 @@ date=$(date -I)
 dossierCible="/opt/consolidation/$typeDossierConsolid/$codeCEC/$typeDossierActes/$date"
 
 if [ ! -d "$dossierCible" ]; then
-    mkdir -p "$dossierCible"
+    mkdir -p "$dossierCible" # creation du dossier cible
 fi
 
 # ----------------- Nettoyage/Renommage --------------------------
