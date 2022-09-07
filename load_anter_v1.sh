@@ -35,7 +35,7 @@ if [ ! -d "$dossierCible" ]; then
     mkdir -p "$dossierCible"
 fi
 
-# ----------------- Nettoyage --------------------------
+# ----------------- Nettoyage/Renommage --------------------------
 
 echo -ne "\nNettoyage des fichiers..."
 . cleanFiles_anter_v1.sh 2>"$dossier_travail"error_cleanFiles_anter_v1.log
@@ -61,14 +61,17 @@ champs_stats="Date#type_Consolid#Code_CEC#type_Actes#orgnasition_fichiers#Total_
 totalCharges=$(ls "$dossierCible/"*.pdf | wc -l)
 fichier_stats="$dossier_stats"stats_"$date".csv
 
+# Creation du dossier des stats
 if [ ! -d "$dossier_stats" ]; then
     mkdir -p "$dossier_stats"
 fi
 
+# Ajout de l'entete du fichier de stats
 if [ ! -e "$fichier_stats" ]; then
     echo "$champs_stats" >"$dossier_stats"stats_"$date".csv
 fi
 
+# Ajout des stats dans le fichier
 echo "$date#$typeDossierConsolid#$codeCEC#$typeDossierActes#v1#$totalPDF#$totalCharges#" >>"$dossier_stats"stats_"$date".csv
 
 # -------------- Deplacement dans les registres ---------------------------------
