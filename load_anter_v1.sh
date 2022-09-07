@@ -29,7 +29,6 @@ codeCEC=$(echo "$dossier_travail" | awk -F/ '{print $(NF-2)}')
 typeDossierActes=$(echo "$dossier_travail" | awk -F/ '{print $(NF-1)}')
 typeDossierConsolid=$(echo "$dossier_travail" | grep -oE "reprise|digit")
 date=$(date -I)
-#echo "typeConsolid = $typeDossierConsolid | $codeCEC = $codeCEC | typeDossierAct = $typeDossierActes "
 dossierCible="/opt/consolidation/$typeDossierConsolid/$codeCEC/$typeDossierActes/$date"
 
 if [ ! -d "$dossierCible" ]; then
@@ -60,13 +59,13 @@ echo -ne " - [ OK ]\n\n"
 
 champs_stats="Date#type_Consolid#Code_CEC#type_Actes#orgnasition_fichiers#Total_Actes#Total_charges#"
 totalCharges=$(ls "$dossierCible/"*.pdf | wc -l)
-fichier_stats="$dossier_stats"stats_"$date".csv 
+fichier_stats="$dossier_stats"stats_"$date".csv
 
 if [ ! -d "$dossier_stats" ]; then
     mkdir -p "$dossier_stats"
 fi
 
-if [ ! -e "$fichier_stats" ];then
+if [ ! -e "$fichier_stats" ]; then
     echo "$champs_stats" >"$dossier_stats"stats_"$date".csv
 fi
 
