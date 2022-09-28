@@ -16,6 +16,7 @@ include_once 'connexion_fonctions_anter_v1.php';
 
 // Connexion a Alfresco
 $ticket = loginToAlfrsco($url_alfresco, $port_alfresco, $user_alfresco, $pass_alfresco);
+if (empty($ticket)) {echo "\n\nErreur: Connexion echouee !\n\n";die();}
 //echo $ticket;
 
 // Recuperation du Noeud 'Partage/Shared'
