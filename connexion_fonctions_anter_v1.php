@@ -128,21 +128,27 @@ function renameFiles(String $oldFileName, String $oldMetaDatasName, String $newF
     return array('newMetaDatasName' => $newMetaDatasName, 'newFileName' => $newFileName);
 }
 
-function get_all_metaDatas($metaDataFile, String $registre, String $file): array
+function get_all_metaDatas($metaDatas, String $registre, String $file): array
 {
     # Cette fonction recupere toutes les meta-donnees et retourne le tableau ($postFields) les contenants
     # [$registre] : contient le numero de registre
     # [$file] : contient le nom du fichier pdf a envoyer
 
-    $data = '';
-    // Recuperation des meta-donnees du fichier
-    if (fopen($metaDataFile, 'r')) {
-        $handle = fopen($metaDataFile, 'r');
-        $data .= fread($handle, filesize($metaDataFile));
-        fclose($handle);
+    if (file_exists($metaDatas)) {
+        $data = '';
+        // Recuperation des meta-donnees du fichier
+        if (fopen($metaDatas, 'r')) {
+            $handle = fopen($metaDatas, 'r');
+            $data .= fread($handle, filesize($metaDatas));
+            fclose($handle);
+
+            // chargement des meta-donnees lues dans la variable $data
+            $data = preg_split("/[#]/", $data);
+        }
+    } else {
+        // chargement des meta-donnees lues dans la variable $data
+        $data = preg_split("/[#]/", $metaDatas);
     }
-    // chargement des meta-donnees lues dans la variable $data
-    $data = preg_split("/[#]/", $data);
 
     // Chargement de toutes les donnees dans $postFields
     $postFields = array(
